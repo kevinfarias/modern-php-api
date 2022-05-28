@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    tty: true
+    networks:
+      - api
+    volumes:
+      - ./src:/var/www/app
+      - /var/www/app/storage
+      - /var/www/app/vendor
+
+networks:
+  api:
+    driver: bridge
