@@ -20,8 +20,8 @@ class TransactionDeposit extends SimpleTransaction implements TransactionInterfa
         return true;
     }
 
-    public function execute(Account $accountA): void
+    public function execute(Account &$accountA): void
     {
-        $accountA->balance($accountA->balance() + $this->amount());
+        $accountA->setBalance($accountA->balance() + $this->amount());
     }
 }

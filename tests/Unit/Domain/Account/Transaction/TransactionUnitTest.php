@@ -1,10 +1,9 @@
 <?php
 
-namespace Tests\Unit\Domain\Account;
+namespace Tests\Unit\Domain\Account\Transaction;
 
 use Core\Domain\Account\Account;
 use Core\Domain\Account\Transaction\Transaction;
-use Core\Domain\Account\Transaction\TransactionDeposit;
 use PHPUnit\Framework\TestCase;
 
 class TransactionUnitTest extends TestCase

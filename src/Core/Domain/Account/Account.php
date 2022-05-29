@@ -40,6 +40,10 @@ class Account {
         return (float)$this->balance;
     }
 
+    public function setBalance(float $value): void {
+        $this->balance = $value;
+    }
+
     public function addTransaction(TransactionInterface $transaction): void {
         try {
             $transaction->validate($this);

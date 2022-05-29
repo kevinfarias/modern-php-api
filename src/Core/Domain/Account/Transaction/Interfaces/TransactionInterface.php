@@ -9,5 +9,5 @@ interface TransactionInterface {
     public function amount(): float;
     public function createdAt(): \DateTime;
     public function validate(Account $accountA): bool;
-    public function execute(Account $accountA): void;
+    public function execute(Account &$accountA): void;
 }
