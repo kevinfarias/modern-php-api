@@ -2,6 +2,7 @@
 
 namespace Core\Domain\Account;
 
+use Core\Domain\Account\Transaction\Interfaces\TransactionInterface;
 use Core\Domain\Shared\Traits\EntityMethodsMagicsTrait;
 
 class Account {
@@ -37,5 +38,14 @@ class Account {
 
     public function balance() {
         return (float)$this->balance;
+    }
+
+    public function addTransaction(TransactionInterface $transaction): void {
+        try {
+            $transaction->validate($this);
+            $this->transactions[] = $transaction;
+        } catch (\Exception $e) {
+            throw new \Exception("Transaction validation failed: {$e}");
+        }
     }
 }
