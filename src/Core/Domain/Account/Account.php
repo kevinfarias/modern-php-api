@@ -1,11 +1,12 @@
 <?php
 
-namespace Core\Domain\Entity;
+namespace Core\Domain\Account;
 
-use Core\Domain\Entity\Traits\MethodsMagicsTrait;
+use Core\Domain\Account\Transaction\Interfaces\TransactionInterface;
+use Core\Domain\Shared\Traits\EntityMethodsMagicsTrait;
 
 class Account {
-    use MethodsMagicsTrait;
+    use EntityMethodsMagicsTrait;
 
     private $id;
     private $balance;
@@ -37,5 +38,18 @@ class Account {
 
     public function balance() {
         return (float)$this->balance;
+    }
+
+    public function setBalance(float $value): void {
+        $this->balance = $value;
+    }
+
+    public function addTransaction(TransactionInterface $transaction): void {
+        try {
+            $transaction->validate($this);
+            $this->transactions[] = $transaction;
+        } catch (\Exception $e) {
+            throw new \Exception("Transaction validation failed: {$e}");
+        }
     }
 }
