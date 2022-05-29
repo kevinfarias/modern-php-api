@@ -5,9 +5,9 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5",
         "mockery/mockery": "^1.5",
-        "spatie/phpunit-watcher": "^1.23"
+        "spatie/phpunit-watcher": "^1.23",
+        "phpunit/phpunit": "^9.5"
     },
     "require": {
         "clue/framework-x": "dev-main"
