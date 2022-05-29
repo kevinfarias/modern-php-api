@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\UseCase\Account\ListAccountBalance;
+namespace Core\UseCase\Account\ListAccountBalance\DTO;
 
 class ListAccountBalanceResponseDto
 {

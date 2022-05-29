@@ -4,7 +4,7 @@ namespace Core\UseCase\Account\ListAccountBalance;
 
 use Core\Domain\Account\Repository\AccountRepositoryInterface;
 use Core\Domain\Shared\Errors\NotFoundError;
-use Core\UseCase\Account\ListAccountBalance\DTO\ListAccountBalanceInputDto;
+use Core\UseCase\Account\ListAccountBalance\DTO\{ListAccountBalanceInputDto, ListAccountBalanceResponseDto};
 
 class ListAccountBalanceUseCase
 {
@@ -17,7 +17,7 @@ class ListAccountBalanceUseCase
 
     public function execute(ListAccountBalanceInputDto $inputDto): ListAccountBalanceResponseDto
     {
-        $account = $this->repository->findById($inputDto->id);
+        $account = $this->repository->findById($inputDto->id());
 
         if (!$account) {
             throw new NotFoundError();
