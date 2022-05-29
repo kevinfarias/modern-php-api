@@ -5,8 +5,8 @@ namespace Unit\UseCase\Account;
 
 use Core\Domain\Account\Account;
 use Core\Domain\Account\Repository\AccountRepositoryInterface;
-use Core\UseCase\Account\CreateTransactionUseCase\DTO\{CreateTransactionUseCaseInputDto, CreateTransactionUseCaseResponseDto};
-use Core\UseCase\Account\CreateTransactionUseCase\CreateTransactionUseCaseUseCase;
+use Core\UseCase\Account\CreateTransaction\CreateTransactionUseCase;
+use Core\UseCase\Account\CreateTransaction\DTO\{CreateTransactionInputDto, CreateTransactionResponseDto};
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use stdClass;
@@ -19,17 +19,20 @@ class CreateTransactionUseCaseUnitTest extends TestCase
 
         $mockRepo = Mockery::mock(stdClass::class, AccountRepositoryInterface::class);
         $mockRepo->shouldReceive('findById')
-                ->with($account->id())
-                ->andReturn($account);
+                 ->with($account->id())
+                 ->andReturn($account);
+        $mockRepo->shouldReceive('update')
+                 ->with($account)
+                 ->andReturn($account);
 
-        $dto = new CreateTransactionUseCaseInputDto($account->id(), 'deposit', 100, null, null);
+        $dto = new CreateTransactionInputDto($account->id(), 'deposit', 100, "");
 
-        $useCase = new CreateTransactionUseCaseUseCase($mockRepo);
+        $useCase = new CreateTransactionUseCase($mockRepo);
         $response = $useCase->execute($dto);
 
-        $this->assertInstanceOf(CreateTransactionUseCaseResponseDto::class, $response);
-        $this->assertEquals($account->balance(), $response->balance());
-        $this->assertEquals($account->id(), $response->id());
+        $this->assertInstanceOf(CreateTransactionResponseDto::class, $response);
+        $this->assertEquals(200, $response->origin->balance);
+        $this->assertEquals($account->id(), $response->origin->id);
     }
 
     public function tearDown(): void

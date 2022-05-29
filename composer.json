@@ -10,7 +10,8 @@
         "phpunit/phpunit": "^9.5"
     },
     "require": {
-        "clue/framework-x": "dev-main"
+        "clue/framework-x": "dev-main",
+        "ramsey/uuid": "^4.3"
     },
     "autoload": {
         "psr-4": {
