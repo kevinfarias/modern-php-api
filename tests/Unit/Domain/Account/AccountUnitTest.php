@@ -21,9 +21,4 @@ class AccountUnitTest extends TestCase {
         $account = new Account('id', 100);
         $this->assertEquals(date('Y-m-d'), substr($account->createdAt(), 0, 10));
     }
-
-    // public function testCreatingANewTransactionInsideAccount() {
-    //     $account = new Account("100", 0);
-        
-    // }
 }

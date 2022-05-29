@@ -44,9 +44,14 @@ class Account {
         $this->balance = $value;
     }
 
+    public function getTransactions(): array {
+        return $this->transactions;
+    }
+
     public function addTransaction(TransactionInterface $transaction): void {
         try {
             $transaction->validate($this);
+            $transaction->execute($this);
             $this->transactions[] = $transaction;
         } catch (\Exception $e) {
             throw new \Exception("Transaction validation failed: {$e}");
