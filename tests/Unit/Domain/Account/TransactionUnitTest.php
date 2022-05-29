@@ -15,4 +15,13 @@ class TransactionUnitTest extends TestCase
         $transaction = Transaction::createTransactionFactory('deposit', 'id', 100, null, null);
         $this->assertTrue($transaction->validate($account));
     }
+
+    public function testShouldThrowErrorWithInvalidType()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid transaction type');
+        $account = new Account('id', 100);
+        $transaction = Transaction::createTransactionFactory('invalid', 'id', 100, null, null);
+        $transaction->validate($account);
+    }
 }
