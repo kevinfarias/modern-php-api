@@ -31,6 +31,21 @@ class ListAccountBalanceUseCaseUnitTest extends TestCase
         $this->assertEquals($account->id(), $response->id());
     }
 
+    public function testShouldThrowNotFoundErrorWhenAccountDoesNotExists()
+    {
+        $mockRepo = Mockery::mock(stdClass::class, AccountRepositoryInterface::class);
+        $mockRepo->shouldReceive('findById')
+                 ->with('id')
+                 ->andReturn(null);
+
+        $dto = new ListAccountBalanceInputDto('id');
+
+        $useCase = new ListAccountBalanceUseCase($mockRepo);
+
+        $this->expectException(\Core\Domain\Shared\Errors\NotFoundError::class);
+        $useCase->execute($dto);
+    }
+
     public function tearDown(): void
     {
         Mockery::close();
