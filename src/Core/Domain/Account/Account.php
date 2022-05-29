@@ -1,11 +1,11 @@
 <?php
 
-namespace Core\Domain\Entity;
+namespace Core\Domain\Account;
 
-use Core\Domain\Entity\Traits\MethodsMagicsTrait;
+use Core\Domain\Shared\Traits\EntityMethodsMagicsTrait;
 
 class Account {
-    use MethodsMagicsTrait;
+    use EntityMethodsMagicsTrait;
 
     private $id;
     private $balance;

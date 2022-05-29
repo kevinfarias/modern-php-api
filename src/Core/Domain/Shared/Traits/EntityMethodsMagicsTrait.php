@@ -1,8 +1,8 @@
 <?php
 
-namespace Core\Domain\Entity\Traits;
+namespace Core\Domain\Shared\Traits;
 
-trait MethodsMagicsTrait
+trait EntityMethodsMagicsTrait
 {
     public function __get($property)
     {
