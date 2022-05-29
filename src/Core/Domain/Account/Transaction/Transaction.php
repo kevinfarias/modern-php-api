@@ -15,7 +15,7 @@ class Transaction {
         string $id,
         float $amount,
         \DateTime $createdAt = null,
-        Account $accountTo = null
+        Account &$accountTo = null
     ) {
         $this->id = $id;
         $this->amount = $amount;
@@ -33,6 +33,10 @@ class Transaction {
 
     public function createdAt(): \DateTime {
         return $this->createdAt;
+    }
+
+    public function accountTo(): Account | null {
+        return $this->accountTo;
     }
 
     static function createTransactionFactory(string $type, string $id, float $amount, \DateTime $createdAt = null, Account $accountTo = null): TransactionInterface {
