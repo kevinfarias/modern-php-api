@@ -9,15 +9,18 @@ class Transaction {
     private $id;
     private $amount;
     private $createdAt;
+    private $accountTo;
 
     private function __construct(
         string $id,
         float $amount,
-        \DateTime $createdAt = null
+        \DateTime $createdAt = null,
+        Account $accountTo = null
     ) {
         $this->id = $id;
         $this->amount = $amount;
         $this->createdAt = $createdAt ?: new \DateTime();
+        $this->accountTo = $accountTo;
     }
 
     public function id(): string {
