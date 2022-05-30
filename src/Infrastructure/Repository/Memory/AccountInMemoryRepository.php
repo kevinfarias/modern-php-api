@@ -37,4 +37,9 @@ class AccountInMemoryRepository implements \Core\Domain\Account\Repository\Accou
     {
         return $this->accounts;
     }
+
+    public function reset(): void
+    {
+        $this->accounts = [];
+    }
 }
