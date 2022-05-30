@@ -6,6 +6,6 @@ COPY . .
 
 EXPOSE 80
 
-# RUN composer install
+ENV X_LISTEN=0.0.0.0:80
 
-CMD ["php", "index.php"]
+CMD ["php", "./src/Infrastructure/Api/Run.php"]

@@ -4,6 +4,7 @@ namespace Infrastructure\Api;
 
 use Infrastructure\Api\Controllers\AccountBalanceController;
 use Infrastructure\Api\Controllers\InsertTransactionController;
+use Infrastructure\Api\Controllers\ResetController;
 use Infrastructure\Repository\Memory\AccountInMemoryRepository;
 
 class Server
@@ -12,10 +13,10 @@ class Server
 
     public function __construct()
     {
-        $this->app = $this->buildApp();
+        $this->buildApp();
     }
 
-    private function buildApp()
+    private function buildApp(): void
     {
         $accountRepository = new AccountInMemoryRepository();
         $container = new \FrameworkX\Container([
@@ -28,11 +29,9 @@ class Server
 
         $app->post('/event', InsertTransactionController::class);
 
-        $app->post('/reset', function (AccountInMemoryRepository &$accountRepository) {
-            $accountRepository->reset();
-        });
+        $app->post('/reset', ResetController::class);
 
-        return $app;
+        $this->app = $app;
     }
 
     public function getApp(): \FrameworkX\App

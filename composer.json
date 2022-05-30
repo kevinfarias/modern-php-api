@@ -11,7 +11,8 @@
     },
     "require": {
         "clue/framework-x": "dev-main",
-        "ramsey/uuid": "^4.3"
+        "ramsey/uuid": "^4.3",
+        "guzzlehttp/guzzle": "^7.0"
     },
     "autoload": {
         "psr-4": {

@@ -4,6 +4,8 @@ services:
   api:
     build: .
     tty: true
+    ports:
+      - 8080:80
     networks:
       - api
     volumes:

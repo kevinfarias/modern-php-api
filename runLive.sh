@@ -1,0 +1,1 @@
+nodemon --exec "php" ./src/Infrastructure/Api/Run.php

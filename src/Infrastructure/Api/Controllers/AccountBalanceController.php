@@ -10,22 +10,28 @@ use React\Http\Message\Response;
 
 class AccountBalanceController
 {
-    public function __invoke(AccountInMemoryRepository &$accountRepository, ServerRequestInterface $request)
+    public function __construct(AccountInMemoryRepository $accountRepository)
     {
-        $accountId = $request->getAttribute('account_id');
+        $this->accountRepository = $accountRepository;
+    }
+
+    public function __invoke(ServerRequestInterface $request)
+    {
+        $params = $request->getQueryParams();
+        $accountId = isset($params['account_id']) ? $params['account_id'] : null;
         if (!$accountId) {
-            return Response::json(['error' => 'Account id is required'], 400);
+            return Response::plaintext('')->withStatus(400);
         }
 
         try {
-            $useCase = new ListAccountBalanceUseCase($accountRepository);
+            $useCase = new ListAccountBalanceUseCase($this->accountRepository);
             $response = $useCase->execute(new ListAccountBalanceInputDto($accountId));
 
-            return Response::plaintext($response->balance(), 200);
+            return Response::plaintext($response->balance())->withStatus(200);
         } catch (\Core\Domain\Shared\Errors\NotFoundError) {
-            return Response::plaintext(0, 404);
-        } catch (\Exception $e) {
-            return Response::json(['error' => 'Internal server error'], 500);
+            return Response::plaintext('0')->withStatus(404);
+        } catch (\Throwable $e) {
+            return Response::json(['error' => $e->getMessage()])->withStatus(500);
         }
     }
 }
