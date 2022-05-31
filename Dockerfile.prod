@@ -21,4 +21,4 @@ COPY --from=build /app/vendor/ vendor/
 # EXPOSE 8080
 
 USER nobody:nobody
-CMD X_LISTEN 0.0.0.0:$PORT php ./src/Infrastructure/Api/Run.php
+CMD X_LISTEN=0.0.0.0:$PORT php ./src/Infrastructure/Api/Run.php
