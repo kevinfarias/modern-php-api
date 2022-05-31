@@ -10,5 +10,11 @@ class CreateTransactionInputDto
         public float $amount, 
         public string $accountIdFrom = ''
     ) {
+        switch ($this->type) {
+            case "withdraw":
+                $this->accountIdTo = $this->accountIdFrom;
+                $this->accountIdFrom = '';
+                break;
+        }
     }
 }

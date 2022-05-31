@@ -65,7 +65,7 @@ class AccountE2ETest extends TestCase
         $response = $client->post('/event', [
             'json' => [
                 'type'=>'withdraw',
-                'destination' => '200',
+                'origin' => '200',
                 'amount' => 10,
             ],
         ]);
@@ -76,7 +76,7 @@ class AccountE2ETest extends TestCase
         $response = $client->post('/event', [
             'json' => [
                 'type'=>'withdraw',
-                'destination' => '100',
+                'origin' => '100',
                 'amount' => 5,
             ],
         ]);
