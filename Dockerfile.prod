@@ -18,8 +18,7 @@ COPY public/ public/
 COPY src/ src/
 COPY --from=build /app/vendor/ vendor/
 
-ENV X_LISTEN 0.0.0.0:$PORT
 # EXPOSE 8080
 
 USER nobody:nobody
-ENTRYPOINT ["php", "./src/Infrastructure/Api/Run.php"]
+CMD X_LISTEN 0.0.0.0:$PORT php ./src/Infrastructure/Api/Run.php
