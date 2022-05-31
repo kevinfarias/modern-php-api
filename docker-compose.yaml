@@ -2,7 +2,11 @@ version: '3.8'
 
 services:
   api:
-    build: .
+    image: kevinfarias/php-cleanarch-microservice:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    
     tty: true
     ports:
       - 8080:80
