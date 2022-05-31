@@ -82,7 +82,7 @@ class AccountE2ETest extends TestCase
         ]);
         $this->assertEquals(201, $response->getStatusCode());
         $this->assertEquals([
-            'destination' => [
+            'origin' => [
                 'id' => '100',
                 'balance' => 15,
             ],

@@ -61,9 +61,14 @@ class CreateTransactionUseCase
             $this->accountRepository->update($destination);
         }
 
+        if ($input->type == "withdraw") {
+            $origin = $destination;
+            $destination = null;
+        }
+
         return new CreateTransactionResponseDto(
             $origin ? new AccountData($origin->id(), $origin->balance()) : null,
-            new AccountData($destination->id(), $destination->balance())
+            $destination ? new AccountData($destination->id(), $destination->balance()) : null
         );
     }
 }
