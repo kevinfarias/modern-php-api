@@ -27,7 +27,7 @@ class AccountBalanceController
             $useCase = new ListAccountBalanceUseCase($this->accountRepository);
             $response = $useCase->execute(new ListAccountBalanceInputDto($accountId));
 
-            return Response::plaintext($response->balance())->withStatus(200);
+            return Response::plaintext((string)$response->balance())->withStatus(200);
         } catch (\Core\Domain\Shared\Errors\NotFoundError) {
             return Response::plaintext('0')->withStatus(404);
         } catch (\Throwable $e) {

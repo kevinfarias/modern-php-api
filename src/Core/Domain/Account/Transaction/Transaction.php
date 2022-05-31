@@ -15,12 +15,12 @@ class Transaction {
         string $id,
         float $amount,
         \DateTime $createdAt = null,
-        Account &$accountTo = null
+        Account &$accountFrom = null
     ) {
         $this->id = $id;
         $this->amount = $amount;
         $this->createdAt = $createdAt ?: new \DateTime();
-        $this->accountTo = $accountTo;
+        $this->accountFrom = $accountFrom;
     }
 
     public function id(): string {
@@ -35,18 +35,18 @@ class Transaction {
         return $this->createdAt;
     }
 
-    public function accountTo(): Account | null {
-        return $this->accountTo;
+    public function accountFrom(): Account | null {
+        return $this->accountFrom;
     }
 
-    static function createTransactionFactory(string $type, string $id, float $amount, \DateTime $createdAt = null, Account $accountTo = null): TransactionInterface {
+    static function createTransactionFactory(string $type, string $id, float $amount, \DateTime $createdAt = null, Account $accountFrom = null): TransactionInterface {
         switch ($type) {
             case 'deposit':
-                return new TransactionDeposit($id, $amount, $createdAt, $accountTo);
+                return new TransactionDeposit($id, $amount, $createdAt, $accountFrom);
             case 'withdraw':
-                return new TransactionWithdraw($id, $amount, $createdAt, $accountTo);
+                return new TransactionWithdraw($id, $amount, $createdAt, $accountFrom);
             case 'transfer':
-                return new TransactionTransfer($id, $amount, $createdAt, $accountTo);
+                return new TransactionTransfer($id, $amount, $createdAt, $accountFrom);
             default:
                 throw new \InvalidArgumentException('Invalid transaction type');
         }

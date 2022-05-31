@@ -12,7 +12,7 @@ class AccountInMemoryRepositoryUnitTest extends TestCase
     {
         $account = new Account('id', 100);
 
-        $repository = new AccountInMemoryRepository();
+        $repository = AccountInMemoryRepository::getInstance();
         $repository->insert($account);
 
         $this->assertEquals($account, $repository->findById($account->id()));

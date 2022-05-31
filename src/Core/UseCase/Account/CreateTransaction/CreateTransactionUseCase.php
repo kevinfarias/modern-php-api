@@ -5,6 +5,7 @@ namespace Core\UseCase\Account\CreateTransaction;
 use Core\Domain\Account\Account;
 use Core\Domain\Account\Repository\AccountRepositoryInterface;
 use Core\Domain\Account\Transaction\Transaction;
+use Core\Domain\Shared\Errors\NotFoundError;
 use Core\UseCase\Account\CreateTransaction\DTO\AccountData;
 use Core\UseCase\Account\CreateTransaction\DTO\CreateTransactionInputDto;
 use Core\UseCase\Account\CreateTransaction\DTO\CreateTransactionResponseDto;
@@ -21,20 +22,26 @@ class CreateTransactionUseCase
 
     public function execute(CreateTransactionInputDto $input): CreateTransactionResponseDto
     {
-        $origin = $this->accountRepository->findById($input->accountIdFrom);
-        if (!$origin) {
-            $accountOrigin = new Account($input->accountIdFrom, 0);
-            $this->accountRepository->insert($accountOrigin);
 
-            $origin = $this->accountRepository->findById($input->accountIdFrom);
-        }
-
-        $destination = $input->accountIdTo ? $this->accountRepository->findById($input->accountIdTo) : null;
-        if ($input->accountIdTo && !$destination) {
+        $destination = $this->accountRepository->findById($input->accountIdTo);
+        if (!$destination && $input->type != "withdraw") {
             $accountDestination = new Account($input->accountIdTo, 0);
             $this->accountRepository->insert($accountDestination);
 
             $destination = $this->accountRepository->findById($input->accountIdTo);
+        }
+        if (!$destination) {
+            throw new NotFoundError();
+        }
+
+        // It is a transfer
+        if ($input->accountIdFrom) {
+            $origin = $this->accountRepository->findById($input->accountIdFrom);
+            if (!$origin) {
+                throw new NotFoundError();
+            }
+        } else {
+            $origin = null;
         }
 
         $uuid = \Ramsey\Uuid\Uuid::uuid4();
@@ -44,19 +51,19 @@ class CreateTransactionUseCase
             $uuid,
             $input->amount,
             null,
-            $destination
+            $origin
         );
 
-        $origin->addTransaction($transaction);
-        $this->accountRepository->update($origin);
-        if ($destination) {
-            $destination->addTransaction($transaction);
+        $destination->addTransaction($transaction);
+        $this->accountRepository->update($destination);
+        if ($origin) {
+            $origin->addTransaction($transaction, false);
             $this->accountRepository->update($destination);
         }
 
         return new CreateTransactionResponseDto(
-            new AccountData($origin->id(), $origin->balance()),
-            $destination ? new AccountData($destination->id(), $destination->balance()) : null
+            $origin ? new AccountData($origin->id(), $origin->balance()) : null,
+            new AccountData($destination->id(), $destination->balance())
         );
     }
 }

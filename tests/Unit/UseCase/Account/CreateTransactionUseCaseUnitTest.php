@@ -31,8 +31,8 @@ class CreateTransactionUseCaseUnitTest extends TestCase
         $response = $useCase->execute($dto);
 
         $this->assertInstanceOf(CreateTransactionResponseDto::class, $response);
-        $this->assertEquals(200, $response->origin->balance);
-        $this->assertEquals($account->id(), $response->origin->id);
+        $this->assertEquals(200, $response->destination->balance);
+        $this->assertEquals($account->id(), $response->destination->id);
     }
 
     public function tearDown(): void

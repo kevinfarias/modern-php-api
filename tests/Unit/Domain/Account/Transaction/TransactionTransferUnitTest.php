@@ -10,23 +10,23 @@ class TransactionTransferUnitTest extends TestCase
 {
     public function testShouldCreateAValidTransfer()
     {
-        $account = new Account('a', 100);
-        $accountB = new Account('b', 0);
-        $transaction = Transaction::createTransactionFactory('transfer', '123', 100, null, $accountB);
-        $this->assertTrue($transaction->validate($account));
+        $accountTo = new Account('a', 0);
+        $accountFrom = new Account('b', 100);
+        $transaction = Transaction::createTransactionFactory('transfer', '123', 100, null, $accountFrom);
+        $this->assertTrue($transaction->validate($accountTo));
 
-        $transaction->execute($account);
-        $this->assertEquals(0, $account->balance());
-        $this->assertEquals(100, $accountB->balance());
+        $transaction->execute($accountTo);
+        $this->assertEquals(0, $accountFrom->balance());
+        $this->assertEquals(100, $accountTo->balance());
     }
 
     public function testShouldThrowErrorWithoutAccountToTransfer()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Account to transfer not found');
-        $account = new Account('a', 100);
+        $this->expectExceptionMessage('Account from not found');
+        $accountFrom = new Account('a', 100);
         $transaction = Transaction::createTransactionFactory('transfer', '123', 100, null, null);
-        $transaction->validate($account);
+        $transaction->validate($accountFrom);
     }
 
     public function testShouldThrowErrorWithTransferWithoutAmount()
@@ -34,10 +34,10 @@ class TransactionTransferUnitTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The account does not have the desired balance to withdraw');
         
-        $account = new Account('a', 50);
-        $accountB = new Account('b', 0);
+        $accountTo = new Account('a', 50);
+        $accountFrom = new Account('b', 0);
 
-        $transaction = Transaction::createTransactionFactory('transfer', '123', 51, null, $accountB);
-        $transaction->validate($account);
+        $transaction = Transaction::createTransactionFactory('transfer', '123', 51, null, $accountFrom);
+        $transaction->validate($accountTo);
     }
 }

@@ -48,10 +48,12 @@ class Account {
         return $this->transactions;
     }
 
-    public function addTransaction(TransactionInterface $transaction): void {
+    public function addTransaction(TransactionInterface $transaction, $execute = true): void {
         try {
-            $transaction->validate($this);
-            $transaction->execute($this);
+            if ($execute) {
+                $transaction->validate($this);
+                $transaction->execute($this);
+            }
             $this->transactions[] = $transaction;
         } catch (\Exception $e) {
             throw new \Exception("Transaction validation failed: {$e}");

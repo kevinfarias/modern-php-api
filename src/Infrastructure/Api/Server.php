@@ -18,9 +18,8 @@ class Server
 
     private function buildApp(): void
     {
-        $accountRepository = new AccountInMemoryRepository();
         $container = new \FrameworkX\Container([
-            AccountInMemoryRepository::class => fn() => $accountRepository,
+            AccountInMemoryRepository::class => fn() => AccountInMemoryRepository::getInstance(),
         ]);
 
         $app = new \FrameworkX\App($container);

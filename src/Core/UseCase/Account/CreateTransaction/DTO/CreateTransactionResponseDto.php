@@ -20,4 +20,12 @@ class CreateTransactionResponseDto
     {
         
     }
+
+    public function notNullValues()
+    {
+        return array_filter([
+            'origin' => $this->origin,
+            'destination' => $this->destination
+        ]) ?: null;
+    }
 }
